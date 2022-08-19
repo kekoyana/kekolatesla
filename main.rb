@@ -1,4 +1,6 @@
-#people = %w[
+words, word1s, word2s, word3s = [], [], [], []
+
+#words = %w[
 #  アイ ンシュ タイン
 #  アレ キサ ンダー
 #  イエ ス・キ リスト
@@ -28,54 +30,68 @@
 #* レオニダス1世
 #* ワシントン
 #]
-people = [
-  %w[アイ ンシュ タイン],
-  %w[アレ キサ ンダー],
-  %w[イエ ス・キ リスト],
-  %w[エカ チェ リーナ],
-  %w[エリ ザベ ス1世],
-  %w[カ エサ ル],
-  %w[ガウダマ シッダ ールタ],
-  %w[ガ ン ディー],
-  %w[ギル ガメッ シュ],
-  %w[ク フ 王],
-  %w[クレ オパ トラ],
-  %w[シェ イク スピア],
-  %w[始 皇 帝],
-  %w[シャー ロック ホームズ],
-  %w[ジャン ヌダ ルク],
-  %w[ス ター リン],
-  %w[ソ クラ テス],
-  %w[チン ギス ハン],
-  %w[ナイ チン ゲール],
-  %w[ナポ レ オン],
-  %w[ニコ ラテ スラ],
-  %w[ニュ ート ン],
-  %w[ヘン リ 8世],
-  %w[モ ー セ],
-  %w[リ チャー ド1世],
-  %w[ル イ 14世],
-  %w[レオ ニダ ス1世],
-  %w[ワ シン トン],
+
+people = %w[
+アインシュタイン
+アレキサンダー
+イエス・キリスト
+エカチェリーナ
+エリザベス1世
+カエサル
+ガウダマシッダールタ
+ガンディー
+ギルガメッシュ
+クフ王
+クレオパトラ
+シェイクスピア
+始皇帝
+シャーロックホームズ
+ジャンヌダルク
+スターリン
+ソクラテス
+チンギスハン
+ナイチンゲール
+ナポレオン
+ニコラテスラ
+ニュートン
+ヘンリ8世
+モーセ
+リチャード1世
+ルイ14世
+レオニダス1世
+ワシントン
 ]
 
-class Word
-  attr_accessor :name
-  def initialize(name:)
-    @name = name
-  end
-  def to_s
-    name.to_s
-  end
-end
-
-word1s, word2s, word3s = [], [], []
+people += %w[
+ネコ2世
+ハンニバル
+アタワルパ
+オクタヴィアヌス
+サラディン
+バイバルス
+コロンブス
+バスコダガマ
+スレイマン
+スヴォーロフ
+ロベスピエール
+ウエリントン
+マシューペリー
+]
 
 people.each do |person|
-  w1, w2, w3 = person
-  word1s << Word.new(name: w1)
-  word2s << Word.new(name: w2)
-  word3s << Word.new(name: w3)
+  div, mod = person.size.divmod(3)
+  periods = 3.times.map { '.' * div }
+  mod.times { |i| periods[i] << '.' }
+  reg = periods.map { "(#{_1})" }.join
+  words.concat(person.match(/#{reg}/)[1..3])
 end
 
-p [word1s, word2s, word3s].map { _1.sample }.join
+words.each_slice(3) do |(w1, w2, w3)|
+  word1s << w1
+  word2s << w2
+  word3s << w3
+end
+
+100.times do
+puts [word1s, word2s, word3s].map { _1.sample }.join
+end
